@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if client %}
+	<div class="panel panel-default">
+	<!-- <div class="panel panel-primary"> -->
+	  <div class="panel-heading">Cliente</div>
+	  <div class="panel-body">
+	  <p>
+	  	<strong>Nombre:</strong> {{client.name}}</br>
+	  	<strong>Dirección:</strong> {{client.address}}</br>
+	  	<strong>RUT:</strong> {{client.rut}}</br>
+	  	<strong>Teléfono:</strong> {{client.phone}}</br>
+	  </p>
+	  </div>
+	</div>
+	<a href="/clients/edit/{{client.id}}" class="btn btn-primary">Editar</a>
+	<a href="/clients/delete/{{client.id}}" class="btn btn-danger">Eliminar</a>
+	<a href="/invoices/create/?client_id={{client.id}}" class="btn btn-default">Crear Factura</a>
+
+
+{% else %}
+	<p>[Detail]No client in the database</p>
+{% endif %}
+{% endblock %}

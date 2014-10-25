@@ -1,0 +1,68 @@
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.row {
+	margin: 2px 0px 2px 0px;
+}
+
+.column-invoice {
+	width: 33.333333333%
+}
+
+.panel-total {
+	font-size: 15px;
+	padding: 8px;
+}
+
+.panel-total .div-item-cant {
+	padding-left: 25px;
+}
+
+.validator-form small {
+	font-size: 12px;
+	color: red;
+	margin-top: 2px;
+}
+
+.selectContainer {
+	margin-bottom: 0px;
+}
+
+.panel-body {
+	font-size: 15px;
+}
+
+.table-items label{
+	font-weight: 400;
+	background-color: rgba(255, 255, 255, 0.08);
+}
+
+.validator-form .selectContainer {
+	margin-bottom: 2px;
+}
+
+.client-detail p {
+	font-size: 15px;
+}
+
+.client-detail label {
+	font-weight: 200;
+}
+
+.searchable tr:hover {
+    cursor: pointer;
+    background-color: #ccc;
+}
+
+.div-input-row {
+	margin: 5px 5px 10px 5px;
+}
+
+
+
+
+
+

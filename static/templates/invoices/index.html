@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if invoices %}
+	<h2>Facturas</h2>
+	<div class="input-group">
+		<span class="input-group-addon">Filtro</span>
+  	<input id="filter" type="text" class="form-control" placeholder="Ingrese aquí...">
+	</div>
+	<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th class="col-xs-1">Cliente</th>
+      <th class="col-xs-2">Nombre</th>
+      <th class="col-xs-1">NFac</th>
+      <th class="col-xs-1">Fecha</th>
+      <th class="col-xs-1">Cobrado</th>
+      <th class="col-xs-1">Fecha Cobrado</th>
+    </tr>
+  </thead>
+	  <tbody class="searchable">
+			{% for invoice in invoices %}
+				<tr href="/invoices/{{invoice.id}}">
+					<td>
+						<a href="/clients/{{invoice.client.id}}" class="">{{invoice.client.name}}</a>
+			    </td>
+			    <td>
+			    	{% if invoice.reference_name %}
+			    		{{invoice.reference_name}}
+			    	{% else %}
+			    		-
+			    	{% endif %}
+			    </td>
+			    <td>
+			    	{{invoice.reference_number}}
+			    </td>
+			    <td>
+						{{ invoice.date_created |date:"d/m/Y" }}
+			    </td>
+					<td>
+						{% if invoice.charged %}
+			    		<span class="glyphicon glyphicon-ok"></span>
+			    	{% else %}
+			    		<span class="glyphicon glyphicon-remove"></span>
+			    	{% endif %}
+			    </td>
+			    <td>
+						{{ invoice.date_charged |date:"d/m/Y" }}
+					</td>
+				</tr>
+			{% endfor %}
+	  </tbody>
+	</table>
+{% else %}
+	<p>No invoice in the database</p>
+{% endif %}
+{% endblock %}

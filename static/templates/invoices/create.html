@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+	{% if message %}
+		<div class="alert alert-{{message_level}}" role="alert">{{message}}</div>
+	{% endif %}
+	<form role="form" method="POST" id="register-form">
+	{% csrf_token %}
+			<div class="row">
+		   	<div class="col-md-4">
+		   		<div class="panel panel-default">
+			      <div class="panel-heading">
+			        <h4>Factura</h4>
+			      </div>
+			      <div class="panel-body">
+			      	<div class="validator-form">
+			      		<div class="row div-input-row">
+									<div class='input-group date' id='datetimepicker5'>
+										<input type='text' name="input_date_created" placeholder="Fecha" class="form-control" data-date-format="DD/MM/YYYY"/>
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-calendar"></span>
+										</span>
+									</div>
+			      		</div>
+								<div class="row div-input-row">
+    							<input name="input_reference_number" type="text" class="form-control" placeholder="Número de factura">
+								</div>
+								<div class="row div-input-row">
+      						<input name="input_reference_name" type="text" class="form-control" placeholder="Nombre de referencia">
+								</div>
+			      	</div>
+			      </div>
+			    </div>
+		   	</div>
+		   	<div class="col-md-4">
+					<div class="panel panel-default">
+			      <div class="panel-heading">
+			        <h4>Cliente</h4>
+			      </div>
+			      <div class="panel-body panel-total">
+			      	<div class="row div-input-row">
+								<select class="form-control" id="input_client" name="input_client">
+								  <option value="">Selecciona un cliente</option>
+								  {% if clients %}
+						  			{% for client in clients %}
+						  				<option value="{{client.id}}" id="{{client.id}}" 
+								  			{% if selected_client|add:0 == client.id %}
+													selected 
+								  			{% endif %}
+								  		>{{client.name}}</option>
+										{% endfor %}
+								  {% endif %}
+								</select>
+			      	</div>
+							<div class="row div-input-row">
+								<strong>RUT: </strong><small id="rut_label">-</small>
+							</div>
+							<div class="row div-input-row">
+								<strong>Dirección: </strong><small id="address_label">-</small>
+							</div>
+			      </div>
+			    </div>
+		   	</div>
+		    <div class="col-md-4">
+					<div class="panel panel-default">
+			      <div class="panel-heading">
+			        <h4>Totales</h4>
+			      </div>
+			      <div class="panel-body panel-total">
+			      	<div class="row">
+				      	<div class="col-xs-4">
+		      				<label for="text" class="control-label">SubTotal</label>
+				      	</div>
+				      	<div class="col-xs-8 div-item-cant">
+				          <input type="text" name="input_subtotal" id="id_sub_total" class="form-control" placeholder="0" value="0" readonly>
+				      	</div>
+			      	</div>
+			      	<div class="row">
+				      	<div class="col-xs-4">
+		      				<label for="text" class="control-label">IVA</label>
+				      	</div>
+				      	<div class="col-xs-8 div-item-cant">
+				          <input type="text" name="input_iva" id="id_iva" class="form-control" placeholder="0" value="0" readonly>
+				      	</div>
+			      	</div>
+			      	<div class="row">
+				      	<div class="col-xs-4">
+		      				<label for="text" class="control-label">Total</label>
+				      	</div>
+				      	<div class="col-xs-8 div-item-cant">
+				          <input type="text" name="input_total" id="id_total" class="form-control" placeholder="0" value="0" readonly>
+				      	</div>
+			      	</div>
+			      </div>
+			    </div>
+		   	</div>
+			</div>
+			<table class="table table-condensed" id="item-table">
+			  <thead>
+			      <tr>
+			          <th class="col-xs-8">Detalle</th>
+			          <th class="col-xs-2">Precio</th>
+			          <th class="col-xs-1"></th>
+			      </tr>
+			  </thead>
+			  <tbody>
+			      <tr>
+			          <td>
+			          	<input type="text" placeholder="Detalle" class="form-control" name="input_description" />
+			          </td>
+			          <td>
+			          	<input type="text" placeholder="Precio" class="form-control price" name="input_price" />
+			          </td>
+			          <td>
+									<a href="#" class="glyphicon glyphicon-minus delete-item-table"></a>
+			          </td>
+			      </tr>
+			  </tbody>
+		  </table>
+			<a href="#" class="glyphicon glyphicon-plus add-item-table"></a>
+			<button type="submit" class="btn btn-primary">Crear</button>
+	</form>
+	<script type="text/javascript">
+		var rut_dict = new Array();
+		var address_dict = new Array();
+		var e = document.getElementById("input_client");
+		var strUser = e.options[e.selectedIndex].value;
+    {% for client in clients %}
+      rut_dict['{{ client.id }}'] =('{{ client.rut }}');
+      address_dict['{{ client.id }}'] =('{{ client.address }}');
+    	if (strUser == '{{client.id}}'){
+    		var rut_label = document.getElementById("rut_label");
+    		var address_label = document.getElementById("address_label");
+    		rut_label.innerText = rut_dict[strUser];
+    		address_label.innerText = address_dict[strUser];
+    	}
+    {% endfor %}
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+

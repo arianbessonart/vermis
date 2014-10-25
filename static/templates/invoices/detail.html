@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+			<div class="row">
+		   	<div class="col-md-4">
+		   		<div class="panel panel-default">
+			      <div class="panel-heading">
+			        <h4>Factura</h4>
+			      </div>
+			      <div class="panel-body client-detail">
+			      	<div class="row">
+									<div class="row">
+										<div class="col-xs-6 col-md-6 col-lg-6">
+											<strong>Nombre</strong></br><label id="name_label">{{invoice.reference_name|default_if_none:"-"}}</label>
+										</div>
+										<div class="col-xs-6 col-md-6 col-lg-6">
+											<button class="btn btn-primary btn-sm" data-toggle="modal" data-target=".bs-example-modal-sm">Cobrar</button>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-6 col-md-6 col-lg-6">
+											<strong>Fecha creada</strong></br><label id="rut_label">{{ invoice.date_created |date:"d/m/Y" }}</label>
+										</div>
+										<div class="col-xs-6 col-md-6 col-lg-6">
+											<strong>Cobrada</strong></br><label id="charged_label">{{invoice.charged|yesno:"Si,No"}}</label>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-6 col-md-6 col-lg-6">
+											<strong>Número</strong></br><label id="number_label">{{invoice.reference_number}}</label>
+										</div>
+										<div class="col-xs-6 col-md-6 col-lg-6">
+											<strong>Fecha cobrada</strong></br><label id="rut_label">{{ invoice.date_charged |date:"d/m/Y" }}</label>
+										</div>
+									</div>
+			      	</div>
+			      </div>
+			    </div>
+		   	</div>
+
+		   	<div class="col-md-4">
+		   		<div class="panel panel-default">
+			      <div class="panel-heading">
+			        <h4>Cliente: <a href="/clients/{{client.id}}">{{client.name}}</a></h4>
+			      </div>
+			      <div class="panel-body client-detail">
+			      	<div class="row">
+								<div class="col-xs-8 col-md-8">
+									<div class="row">
+										<strong>RUT</strong></br><label id="rut_label">{{client.rut}}</label>
+									</div>
+									<div class="row">
+										<strong>Dirección</strong></br><label id="address_label">{{client.address}}</label>
+									</div>
+								</div>
+			      	</div>
+			      </div>
+			    </div>
+		   	</div>
+
+		   	<div class="col-md-4">
+					<div class="panel panel-default">
+			      <div class="panel-heading">
+			        <h4 class="text-center">Totales</h4>
+			      </div>
+			      <div class="panel-body panel-total">
+			      	<div class="row">
+				      	<div class="col-xs-4">
+		      				<label for="text" class="control-label">SubTotal</label>
+				      	</div>
+				      	<div class="col-xs-8 div-item-cant">
+				          <input type="text" name="input_subtotal" id="id_sub_total" class="form-control" placeholder="0" value="{{invoice.sub_total}}" readonly>
+				      	</div>
+			      	</div>
+			      	<div class="row">
+				      	<div class="col-xs-4">
+		      				<label for="text" class="control-label">IVA</label>
+				      	</div>
+				      	<div class="col-xs-8 div-item-cant">
+				          <input type="text" name="input_iva" id="id_iva" class="form-control" placeholder="0" value="{{invoice.iva}}" readonly>
+				      	</div>
+			      	</div>
+			      	<div class="row">
+				      	<div class="col-xs-4">
+		      				<label for="text" class="control-label">Total</label>
+				      	</div>
+				      	<div class="col-xs-8 div-item-cant">
+				          <input type="text" name="input_total" id="id_total" class="form-control" placeholder="0" value="{{invoice.total}}" readonly>
+				      	</div>
+			      	</div>
+			      </div>
+			    </div>
+		   	</div>
+			</div>
+			<table class="table table-condensed" id="item-table">
+			  <thead>
+			      <tr>
+			          <th class="col-xs-8">Detalle</th>
+			          <th class="col-xs-2">Precio</th>
+			      </tr>
+			  </thead>
+			  <tbody class="table-items">
+			  	{% for item in items %}
+			      <tr>
+			          <td>
+			          	<label type="text" placeholder="Detalle" class="form-control" name="detail[]">{{item.description}}</label>
+			          </td>
+			          <td>
+			          	<label type="text" placeholder="Precio" class="form-control" name="price[]">{{item.price}}</label>
+			          </td>
+			      </tr>
+			    {% endfor %}
+			  </tbody>
+		  </table>
+	    <a href="/invoices/edit/{{invoice.id}}" class="btn btn-primary">Editar</a>
+		  <a href="/invoices/generate_pdf/{{invoice.id}}" class="btn btn-default">Generar PDF</a>
+
+		<form role="form" id="date-charged-form">
+			{% csrf_token %}
+		  <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+			  <div class="modal-dialog modal-sm">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			        <h4 class="modal-title" id="myModalLabel">Factura cobrada</h4>
+			      </div>
+			      <div class="modal-body">
+			      	<div class="row">
+				        <div class="radio">
+								  <label>
+								    <input type="radio" name="optionsCharge" id="yes" 
+								    {% if invoice.charged %}
+								    	checked 
+								    {% endif %}
+								    >
+								    Si
+								  </label>
+								</div>
+								<div class="radio">
+								  <label>
+								    <input type="radio" name="optionsCharge" id="no" 
+								    {% if not invoice.charged %}
+								    	checked 
+								    {% endif %}
+								    >
+								    No
+								  </label>
+								</div>
+			      	</div>
+			      	<div id="date-charged-div" class="row 
+			      		{% if not invoice.charged %}
+		      				hide
+		      			{% endif %}
+		      		">
+			      		<hr/>
+			      		<div class='input-group date' id='datetimepicker5'>
+									<input type='text' id="id_date_charged" name="input_date_charged" placeholder="Fecha" class="form-control" data-date-format="DD/MM/YYYY" value="{{ invoice.date_charged |date:"d/m/Y" }}" />
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+			      	</div>
+		      	</div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+			        <button type="submit" class="btn btn-primary">Aceptar</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+		</form>
+{% endblock %}
+

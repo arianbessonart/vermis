@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+	{% if object_list.count > 0 %}
+			<table class="table table-striped">
+			  <thead>
+			    <tr>
+			      <th class="col-xs-3">Nombre</th>
+			      <th class="col-xs-3">Apellido</th>
+			      <th class="col-xs-3">Email</th>
+			      <th class="col-xs-3">Teléfono</th>
+			    </tr>
+			  </thead>
+				  <tbody>
+						{% for contact in object_list %}
+							<tr>
+								<td>{{contact.f_name}}</td>
+								<td>{{contact.l_name}}</td>
+								<td>{{contact.email}}</td>
+								<td>{{contact.phone}}</td>
+							</tr>
+						{% endfor %}
+				  </tbody>
+				</table>
+	{% endif %}
+{% endblock %}
+
+
+
+
+
+{% if clients %}
+	<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="col-xs-1">Id</th>
+      <th class="col-xs-6">Nombre</th>
+      <th class="col-xs-2">Acción</th>
+    </tr>
+  </thead>
+	  <tbody>
+			{% for client in clients %}
+				<tr>
+					<td>{{client.id}}</td>
+					<td><a href="/clients/{{client.id}}" class="">
+				    {{client.name}}</a></td>
+					<td>
+					<a href="/clients/edit/{{client.id}}" class="btn-sm btn-mini btn-info">
+				    Editar</a>
+					<a href="/clients/{{client.id}}" class="btn-sm btn-mini btn-danger">
+				    Eliminar</a>
+			    </td>
+				</tr>
+			{% endfor %}
+	  </tbody>
+	</table>
+{% else %}
+	<p>No client in the database</p>
+{% endif %}

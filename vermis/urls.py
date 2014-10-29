@@ -11,4 +11,6 @@ urlpatterns = patterns('',
     url(r'^clients/', include('clients.urls', namespace='clients')),
     url(r'^invoices/', include('invoices.urls', namespace='invoices')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^auth/', include('auth.urls', namespace='auth')),
+    url(r'^auth/logout', include('auth.urls')),
 )

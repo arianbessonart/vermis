@@ -2,9 +2,16 @@
 
 {% block content %}
 
-{% if form.errors %}
-  <p>Sorry, thats not a valid username or password</p>
+{% if result == 1 %}
+  <div class="alert alert-danger" role="alert">...</div>
 {% endif %}
+{% if result == 2 %}
+  <div class="alert alert-info" role="alert">...</div>
+{% endif %}
+{% if result == 3 %}
+  <div class="alert alert-warning" role="alert">...</div>
+{% endif %}
+
 <form action="/auth/login" method="post">{% csrf_token %}
   <section id="login">
     <div class="container">

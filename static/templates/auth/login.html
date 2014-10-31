@@ -3,13 +3,10 @@
 {% block content %}
 
 {% if result == 1 %}
-  <div class="alert alert-danger" role="alert">...</div>
+  <div class="alert alert-danger" role="alert">Nombre de Usuario y/o Contraseña incorrecta.</div>
 {% endif %}
 {% if result == 2 %}
-  <div class="alert alert-info" role="alert">...</div>
-{% endif %}
-{% if result == 3 %}
-  <div class="alert alert-warning" role="alert">...</div>
+  <div class="alert alert-danger" role="alert">Usuario desactivo</div>
 {% endif %}
 
 <form action="/auth/login" method="post">{% csrf_token %}
@@ -18,15 +15,15 @@
       <div class="row">
           <div class="col-xs-12">
               <div class="form-wrap">
-                <h1>Log in with your email account</h1>
-                    <form role="form" action="javascript:;" method="post" id="login-form" autocomplete="off">
+                <h1>Ingrese con el nombre de usuario</h1>
+                    <form role="form" method="post" id="login-form" autocomplete="off">
                         <div class="form-group">
-                            <label for="email" class="sr-only">Username</label>
-                            <input type="text" name="username" id="username" class="form-control" placeholder="somebody@example.com">
+                            <label for="email" class="sr-only">Nombre de Usuario</label>
+                            <input type="text" name="username" id="username" class="form-control" placeholder="Nombre de Usuario">
                         </div>
                         <div class="form-group">
-                            <label for="key" class="sr-only">Password</label>
-                            <input type="password" name="password" id="password" class="form-control" placeholder="Password">
+                            <label for="key" class="sr-only">Contraseña</label>
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Contraseña">
                         </div>
                         <input type="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Log in">
                     </form>

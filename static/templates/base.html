@@ -44,34 +44,41 @@
           </button>
           <a class="navbar-brand" href="#">Vermis</a>
         </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="/clients/">Home</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Factura <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="/invoices/">Lista</a></li>
-                <li><a href="/invoices/create">Agregar</a></li>
-              </ul>
-            </li>
-
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cliente <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="/clients/">Lista</a></li>
-                <li><a href="/clients/create">Agregar</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contactos <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="/contacts/">Lista</a></li>
-                <li><a href="/contacts/create">Agregar</a></li>
-              </ul>
-            </li>
-
-          </ul>
-        </div><!--/.nav-collapse -->
+          <div class="navbar-collapse collapse">
+          {% if user.is_authenticated %}
+            <ul class="nav navbar-nav">
+              <li><a href="/clients/">Home</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Factura <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="/invoices/">Lista</a></li>
+                  <li><a href="/invoices/create">Agregar</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cliente <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="/clients/">Lista</a></li>
+                  <li><a href="/clients/create">Agregar</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contactos <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="/contacts/">Lista</a></li>
+                  <li><a href="/contacts/create">Agregar</a></li>
+                </ul>
+              </li>
+            </ul>
+          {% endif %}
+          {% if user.is_authenticated %}
+            <ul class="nav pull-right">
+              <li class="dropdown" id="menuLogin">
+                <a class="dropdown-toggle" href="/auth/logout" id="navLogin">Logout</a>
+              </li>
+            </ul>
+          {% endif %}
+          </div><!--/.nav-collapse -->
       </div>
     </div>
 

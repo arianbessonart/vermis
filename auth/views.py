@@ -20,22 +20,25 @@ def auth_view(request):
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(username=username, password=password)
+    print "User:"+str(user)
     if user is not None:
         if user.is_active:
             login(request, user)
+            print "Logeando"
             if request.POST.has_key('next'):
                 return redirect(request.POST['next'])
-            return render_to_response('auth/login.html', {'result':1},
-                                    context_instance=RequestContext(request))
+            return HttpResponseRedirect('/clients/')
         else:
             return render_to_response('auth/login.html', {'result':2}, 
                                     context_instance=RequestContext(request))
     else:
-        return render_to_response('auth/login.html', {'result':3}, 
+        return render_to_response('auth/login.html', {'result':1}, 
                                     context_instance=RequestContext(request))
   else:
     c = {}
     return render_to_response('auth/login.html',c)
 
 def logout(request):
-  pass
+  print "DesLogeando"
+  logout(request)
+  HttpResponseRedirect('/')

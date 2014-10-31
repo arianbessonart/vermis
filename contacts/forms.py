@@ -8,6 +8,7 @@ class ContactForm(forms.ModelForm):
 	"""docstring for ContactForm"""
 	class Meta:
 		model = Contact
+		exclude = []
 		widgets = {
 			'f_name':forms.TextInput(attrs={'class':'form-control','placeholder':'Nombre'}),
 			'l_name':forms.TextInput(attrs={'class':'form-control','placeholder':'Apellido'}),

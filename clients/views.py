@@ -3,9 +3,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader, Context
 from clients.models import Client
 
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
-
+@login_required
 def index(request):
 	clients = Client.objects.all()
 	t = loader.get_template('clients/index.html')

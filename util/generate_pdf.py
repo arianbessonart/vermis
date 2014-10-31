@@ -7,12 +7,10 @@ from io import BytesIO
 class GeneratePdf(object):
 	"""docstring for GeneratePdf"""
 
-	# def generate_pdf(**kwargs):
 	def generate_pdf(self, **kwargs):
 		client = kwargs['client']
 		invoice = kwargs['invoice']
 		items = kwargs['items']
-		# pdf_file_name = '/tmp/test.pdf'
 
 		buffer = BytesIO()
 		c = canvas.Canvas(buffer, pagesize=A4)
@@ -57,21 +55,17 @@ class GeneratePdf(object):
 		'y_total':y_total_cp_client}
 
 		#Print Rut
-		# rut = '213227550018'
 		rut = client.rut
 		#Print Date
-		date = str(invoice.date_created)
+		date = invoice.date_created.strftime('%d-%m-%Y')
 		#Print Name
 		name = client.name
 		#Print Address
 		address =client.address
 
-		# sub_total = '213443.32'
 		sub_total = str(invoice.sub_total)
 		iva_tag = '22'
-		# iva = '2314.40'
 		iva = str(invoice.iva)
-		# total = '2134325.56'
 		total = str(invoice.total)
 
 		# Se itera para la copia cliente.

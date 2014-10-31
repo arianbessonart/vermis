@@ -1,18 +1,16 @@
-from django.shortcuts import render,render_to_response, get_object_or_404
+from django.shortcuts import render,render_to_response, get_object_or_404, RequestContext
 from contacts.models import Contact
 from forms import ContactForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.context_processors import csrf
+from django.template import loader, Context
 
-
-# Create your views here.
 
 def index(request):
 	contacts = Contact.objects.all()
-	data = {}
-	data['object_list'] = contacts
-	return render_to_response('contacts/index.html',data)
-
+	t = loader.get_template('contacts/index.html')
+	c = RequestContext(request,{'object_list': contacts})
+	return HttpResponse(t.render(c))
 
 def create(request):
 	if request.POST:
@@ -20,14 +18,16 @@ def create(request):
 		if form.is_valid():
 			form.save()
 
-			return HttpResponseRedirect('/clients')
+			return HttpResponseRedirect('/contacts')
 	else:
 		form = ContactForm()
 
 	args = {}
 	args.update(csrf(request))
 	args['form'] = form
-	return render_to_response('contacts/contact_form.html',args)
+	t = loader.get_template('contacts/contact_form.html')
+	c = RequestContext(request,args)
+	return HttpResponse(t.render(c))
 
 def edit(request,id=None):
 	obj = get_object_or_404(Contact,pk=id)
@@ -35,8 +35,10 @@ def edit(request,id=None):
 	if request.method == 'POST':
 		if form.is_valid():
 			form.save()
-			return HttpResponseRedirect('/clients')
+			return HttpResponseRedirect('/contacts')
 	args = {}
 	args.update(csrf(request))
 	args['form'] = form
-	return render_to_response('contacts/contact_form.html',args)
+	t = loader.get_template('contacts/contact_form.html')
+	c = RequestContext(request,args)
+	return HttpResponse(t.render(c))

@@ -12,7 +12,7 @@ import datetime
 def index(request):
 	invoices = Invoice.objects.all().order_by('-id')
 	t = loader.get_template('invoices/index.html')
-	c = Context({'invoices': invoices})
+	c = RequestContext(request,{'invoices': invoices})
 	return HttpResponse(t.render(c))
 
 def create(request):
@@ -64,7 +64,7 @@ def detail(request, id):
 	items = Item.objects.filter(invoice_id=id)
 	client = Client.objects.get(pk=invoice.client.id)
 	t = loader.get_template('invoices/detail.html')
-	c = Context({'invoice': invoice, 'items': items, 'client':client})
+	c = RequestContext(request,{'invoice': invoice, 'items': items, 'client':client})
 	return HttpResponse(t.render(c))
 
 def edit(request, id):

@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 def index(request):
 	clients = Client.objects.all()
 	t = loader.get_template('clients/index.html')
-	c = Context({'clients': clients})
+	c = RequestContext(request,{'clients': clients})
 	return HttpResponse(t.render(c))
 
 def detail(request, id):

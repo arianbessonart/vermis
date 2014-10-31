@@ -38,7 +38,7 @@ def auth_view(request):
     c = {}
     return render_to_response('auth/login.html',c)
 
-def logout(request):
+def logout_view(request):
   print "DesLogeando"
   logout(request)
-  HttpResponseRedirect('/')
+  return HttpResponseRedirect('/')

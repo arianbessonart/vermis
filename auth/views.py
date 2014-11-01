@@ -25,8 +25,11 @@ def auth_view(request):
         if user.is_active:
             login(request, user)
             print "Logeando"
+            print "Post:"+str(request.POST)
             if request.POST.has_key('next'):
-                return redirect(request.POST['next'])
+              print "Logeando1"
+              return redirect(request.POST['next'])
+            print "Logeando2"
             return HttpResponseRedirect('/clients/')
         else:
             return render_to_response('auth/login.html', {'result':2}, 

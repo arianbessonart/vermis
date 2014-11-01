@@ -14,6 +14,7 @@ def index(request):
 	c = RequestContext(request,{'clients': clients})
 	return HttpResponse(t.render(c))
 
+@login_required
 def detail(request, id):
 	client = Client.objects.get(pk=id)
 	t = loader.get_template('clients/detail.html')
@@ -36,6 +37,7 @@ def edit(request, id):
 		c = RequestContext(request,{'client': client})
 		return HttpResponse(t.render(c))
 
+@login_required
 def create(request):
 	next_page = 'clients/create.html'
 	if request.method == 'POST':

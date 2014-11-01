@@ -5,16 +5,19 @@ from invoices.models import Invoice, Item
 from clients.models import Client
 from util.generate_pdf import GeneratePdf
 import datetime
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 
+@login_required
 def index(request):
 	invoices = Invoice.objects.all().order_by('-id')
 	t = loader.get_template('invoices/index.html')
 	c = RequestContext(request,{'invoices': invoices})
 	return HttpResponse(t.render(c))
 
+@login_required
 def create(request):
 	next_page = 'invoices/create.html'
 	clients = Client.objects.all()
@@ -59,6 +62,7 @@ def create(request):
 	c = RequestContext(request,{'clients':clients, 'selected_client':selected_client})
 	return HttpResponse(t.render(c))
 
+@login_required
 def detail(request, id):
 	invoice = Invoice.objects.get(pk=id)
 	items = Item.objects.filter(invoice_id=id)
@@ -67,6 +71,7 @@ def detail(request, id):
 	c = RequestContext(request,{'invoice': invoice, 'items': items, 'client':client})
 	return HttpResponse(t.render(c))
 
+@login_required
 def edit(request, id):
 	if request.method == "POST":
 		client = Client.objects.get(pk=request.POST['input_client'])
@@ -98,6 +103,7 @@ def edit(request, id):
 	c = RequestContext(request,{'invoice': invoice,'clients':clients, 'items': items, 'selected_client':invoice.client.id})
 	return HttpResponse(t.render(c))
 
+@login_required
 def generate_pdf(request,id):
 	if request.method == 'GET':
 		invoice = Invoice.objects.get(pk=id)
@@ -117,6 +123,7 @@ def generate_pdf(request,id):
 	return HttpResponseRedirect('/invoices/')
 
 
+@login_required
 def set_charged_invoice(request,id):
 	if request.is_ajax():
 		charged_invoice = True if request.POST['charged'] == 'true' else False

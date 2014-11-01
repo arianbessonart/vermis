@@ -65,7 +65,7 @@ def create(request):
 @login_required
 def detail(request, id):
 	invoice = Invoice.objects.get(pk=id)
-	items = Item.objects.filter(invoice_id=id)
+	items = Item.objects.filter(invoice_id=id).order_by('id')
 	client = Client.objects.get(pk=invoice.client.id)
 	t = loader.get_template('invoices/detail.html')
 	c = RequestContext(request,{'invoice': invoice, 'items': items, 'client':client})
@@ -98,7 +98,7 @@ def edit(request, id):
 
 	invoice = Invoice.objects.get(pk=id)
 	clients = Client.objects.all()
-	items = Item.objects.filter(invoice_id=id)
+	items = Item.objects.filter(invoice_id=id).order_by('id')
 	t = loader.get_template('invoices/edit.html')
 	c = RequestContext(request,{'invoice': invoice,'clients':clients, 'items': items, 'selected_client':invoice.client.id})
 	return HttpResponse(t.render(c))
@@ -108,7 +108,7 @@ def generate_pdf(request,id):
 	if request.method == 'GET':
 		invoice = Invoice.objects.get(pk=id)
 		client = Client.objects.get(pk=invoice.client.id)
-		items = Item.objects.filter(invoice_id=invoice.id)
+		items = Item.objects.filter(invoice_id=invoice.id).order_by('id')
 		filename = "[%s]%s"%(client.name,datetime.datetime.now().strftime('%Y-%m-%d'))
 
 		try:

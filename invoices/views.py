@@ -138,17 +138,4 @@ def set_charged_invoice(request,id):
 		return HttpResponseRedirect('/invoices/')
 	else:
 		print 'is not ajax'
-	# print message   
-
-
-
-
-
-
-
-
-
-
-
-
 

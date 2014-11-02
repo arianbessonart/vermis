@@ -61,15 +61,13 @@
 	margin: 5px 5px 10px 5px;
 }
 
+.scrollable-table-invoices {
+  height:200px;
+  overflow:auto;
+}
 
 
-
-
-
-
-
-
-
+/* Login */
 
 #login {
     padding-top: 50px
@@ -159,3 +157,9 @@
 #footer a {
     color: inherit;
 }
+
+
+/*    --------------------------------------------------
+    :: Table
+  -------------------------------------------------- */
+

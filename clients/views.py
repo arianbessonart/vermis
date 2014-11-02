@@ -2,6 +2,7 @@ from django.shortcuts import render,render_to_response, RequestContext, get_obje
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader, Context
 from clients.models import Client
+from invoices.models import Invoice, Item
 
 from django.contrib.auth.decorators import login_required
 
@@ -17,8 +18,10 @@ def index(request):
 @login_required
 def detail(request, id):
 	client = Client.objects.get(pk=id)
+	invoices = Invoice.objects.filter(client_id=id).order_by('-id')
+	data = {'client': client, 'invoices':invoices}
 	t = loader.get_template('clients/detail.html')
-	c = Context({'client': client})
+	c = RequestContext(request,data)
 	return HttpResponse(t.render(c))
 
 def edit(request, id):

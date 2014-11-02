@@ -2,22 +2,75 @@
 
 {% block content %}
 {% if client %}
-	<div class="panel panel-default">
-	<!-- <div class="panel panel-primary"> -->
-	  <div class="panel-heading">Cliente</div>
-	  <div class="panel-body">
-	  <p>
-	  	<strong>Nombre:</strong> {{client.name}}</br>
-	  	<strong>Dirección:</strong> {{client.address}}</br>
-	  	<strong>RUT:</strong> {{client.rut}}</br>
-	  	<strong>Teléfono:</strong> {{client.phone}}</br>
-	  </p>
-	  </div>
+	<div class="row">
+   	<div class="col-md-6">
+			<div class="panel panel-default">
+			  <div class="panel-heading">
+			  	<h4>Cliente</h4>
+			  </div>
+			  <div class="panel-body">
+			  	<strong>Nombre:</strong> {{client.name}}</br>
+			  	<strong>Dirección:</strong> {{client.address}}</br>
+			  	<strong>RUT:</strong> {{client.rut}}</br>
+			  	<strong>Teléfono:</strong> {{client.phone}}</br>
+			  </div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel panel-default">
+			  <div class="panel-heading">
+			  	<h4>Facturas</h4>
+			  </div>
+			  <div class="panel-body">
+				  {% if invoices %}
+				  	<div class="scrollable-table-invoices">
+					  	<table class="table table-striped table-hover">
+							  <thead>
+							    <tr>
+							      <th class="col-xs-1">Nombre</th>
+							      <th class="col-xs-1">NFac</th>
+							      <th class="col-xs-1">Fecha</th>
+							      <th class="col-xs-1">Cobrado</th>
+							    </tr>
+							  </thead>
+		  					<tbody class="searchable">
+									{% for invoice in invoices %}
+										<tr href="/invoices/{{invoice.id}}">
+									    <td class="filterable-cell">
+									    	{% if invoice.reference_name %}
+									    		{{invoice.reference_name}}
+									    	{% else %}
+									    		-
+									    	{% endif %}
+									    </td>
+									    <td class="filterable-cell">
+									    	{{invoice.reference_number}}
+									    </td>
+									    <td class="filterable-cell">
+												{{ invoice.date_created |date:"d/m/Y" }}
+									    </td>
+											<td class="filterable-cell">
+												{% if invoice.charged %}
+									    		<span class="glyphicon glyphicon-ok"></span>
+									    	{% else %}
+									    		<span class="glyphicon glyphicon-remove"></span>
+									    	{% endif %}
+									    </td>
+										</tr>
+									{% endfor %}
+							  </tbody>
+							</table>
+						</div>
+				  {% else %}
+				  	<p>No existen facturas para el cliente</p>
+				  {% endif %}
+			  </div>
+			</div>
+		</div>
 	</div>
 	<a href="/clients/edit/{{client.id}}" class="btn btn-primary">Editar</a>
 	<a href="/clients/delete/{{client.id}}" class="btn btn-danger">Eliminar</a>
 	<a href="/invoices/create/?client_id={{client.id}}" class="btn btn-default">Crear Factura</a>
-
 
 {% else %}
 	<p>[Detail]No client in the database</p>

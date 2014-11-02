@@ -61,11 +61,15 @@
 	margin: 5px 5px 10px 5px;
 }
 
-.scrollable-table-invoices {
+.scrollable-table-client-invoices {
   height:200px;
   overflow:auto;
 }
 
+.scrollable-table-invoices {
+  height:400px;
+  overflow:auto;
+}
 
 /* Login */
 

@@ -1,9 +1,3 @@
-$(function() {
-
-    // $( "#date_created_id" ).datepicker();
-    // $( "#date_created_id" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
-    // $( "#date_created_id" ).datepicker( "option", "dateFormat", "dd/mm/yy" );
-});
 
 $('body').on('keyup','.price', function (event) {
 	event.preventDefault();
@@ -87,6 +81,78 @@ function load_client_data () {
   $('#address_label').text(address_value);
 }
 
+/*
+  Filter Invoices Index Table
+*/
+var client_filt = '';
+var name_filt = '';
+var number_filt = '';
+var charge_filt = '';
+$('#adv_filt_clients').change(function(){
+  client = $( "#adv_filt_clients option:selected" )
+  if (client.val() == ""){
+    client_text = '';
+  } else {
+    client_text = client.text();
+  }
+  client_filt = new RegExp(client_text, 'i');
+  filter_list_invoices();
+});
+
+$('body').on('keyup','#adv_filt_name', function (event) {
+  event.preventDefault();
+  name_filt = new RegExp($(this).val(), 'i');
+  filter_list_invoices();
+});
+
+$('body').on('keyup','#adv_filt_number', function (event) {
+  event.preventDefault();
+  number_filt = new RegExp($(this).val(), 'i');
+  filter_list_invoices();
+});
+
+$('#adv_filt_charged').change(function(){
+    charge = $( "#adv_filt_charged option:selected" )
+  if (charge.val() == ""){
+    charge_text = '';
+  } else {
+    charge_text = charge.text();
+  }
+  charge_filt = new RegExp(charge_text, 'i');
+  filter_list_invoices();
+});
+
+
+function filter_list_invoices () {
+  $('.searchable tr').show();
+
+  if (client_filt != ''){
+    $('.client_name').filter(function () {
+      return !(client_filt.test($(this).text())); 
+    }).closest('tr').hide();
+  }
+  if (name_filt != ''){
+    $('.invoice_name').filter(function () {
+      return !(name_filt.test($(this).text())); 
+    }).closest('tr').hide();
+  }
+  if (number_filt != ''){
+    $('.invoice_number').filter(function () {
+      return !(number_filt.test($(this).text())); 
+    }).closest('tr').hide();
+  }
+  if (charge_filt != ''){
+    $('.invoice_charged input').filter(function () {
+      return !(charge_filt.test($(this).val())); 
+    }).closest('tr').hide();
+  }
+
+}
+
+/*
+  Filter Invoices Index Table
+*/
+
 
 $(document).ready(function() {
 
@@ -97,6 +163,7 @@ $(document).ready(function() {
   $('body').on('click','#no',function () {
     $("#date-charged-div").addClass('hide');
   });
+
 
   $('#date-charged-form').on('submit', function(event){
     event.preventDefault();
@@ -189,17 +256,6 @@ $(document).ready(function() {
                 },
             }
           },
-          // input_date_created: {
-          //   validators: {
-          //     notEmpty: {
-          //         message: 'Debe seleccionar una fecha'
-          //     },
-          //     date: {
-          //         format: 'DD/MM/YYYY',
-          //         message: 'No es una fecha válida'
-          //     }
-          //   }
-          // },
           input_client: {
               validators: {
                 notEmpty: {
@@ -226,13 +282,6 @@ $(document).ready(function() {
           validating: 'glyphicon glyphicon-refresh'
       },
       fields: {
-          // input_date_charged: {
-          //   validators: {
-          //     notEmpty: {
-          //         message: 'Debe seleccionar una fecha'
-          //     }
-          //   }
-          // },
       }
   });
 });

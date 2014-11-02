@@ -13,8 +13,10 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def index(request):
 	invoices = Invoice.objects.all().order_by('-id')
+	clients = Client.objects.all()
+	data = {'invoices': invoices, 'clients':clients}
 	t = loader.get_template('invoices/index.html')
-	c = RequestContext(request,{'invoices': invoices})
+	c = RequestContext(request,data)
 	return HttpResponse(t.render(c))
 
 @login_required

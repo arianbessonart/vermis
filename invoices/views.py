@@ -79,7 +79,7 @@ def edit(request, id):
 		client = Client.objects.get(pk=request.POST['input_client'])
 		date_formated = datetime.datetime.strptime(request.POST['input_date_created'], '%d/%M/%Y').strftime('%Y-%M-%d')
 		reference_name = request.POST['input_reference_name']
-		reference_number = -1 if 'input_reference_number' not in request.POST or request.POST['input_reference_number'] == '' else request.POST.get('input_reference_number', -1)
+		reference_number = request.POST.get('input_reference_number', -1)
 		i = Invoice.objects.get(pk=id)
 		i.sub_total = request.POST['input_subtotal']
 		i.iva = request.POST['input_iva']

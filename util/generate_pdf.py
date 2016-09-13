@@ -23,15 +23,15 @@ class GeneratePdf(object):
 		x_item_detail = 2*cm
 		x_right_column = 17*cm
 
-		y_rut = 26.1*cm
-		y_date = 24.2*cm
-		y_name = 24.8*cm
-		y_address = 24.2*cm
-		y_item = 22.5*cm
-		y_sub_total = 17.9*cm
-		y_iva = 17.2*cm
-		y_iva_tag = 17.2*cm
-		y_total = 16.4*cm
+		y_rut = 25.6*cm
+		y_date = 23.7*cm
+		y_name = 24.3*cm
+		y_address = 23.7*cm
+		y_item = 22.0*cm
+		y_sub_total = 17.4*cm
+		y_iva = 16.7*cm
+		y_iva_tag = 16.7*cm
+		y_total = 15.9*cm
 
 		coordinates = {'x_rut':x_rut,'x_address':x_address,'x_name':x_name,'x_iva_tag':x_iva_tag,
 		'x_item_detail':x_item_detail,'x_right_column':x_right_column,
